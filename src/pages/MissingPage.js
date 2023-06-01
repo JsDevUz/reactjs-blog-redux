@@ -1,8 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function Missing() {
     return (
-        <div>Missing</div>
+        <>
+            <div>Missing</div>
+            <Link to='/'>Home</Link>
+        </>
     )
 }
 

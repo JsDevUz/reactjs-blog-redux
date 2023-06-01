@@ -4,10 +4,10 @@ function NewPost({ postTitle, addPost, postBody, setPostTitle, setPostBody }) {
     return (
         <div className='newPost'>
             <h2>New Post</h2>
-            <form onSubmit={addPost} className='addPost'>
+            <form onSubmit={(e) => e.preventDefault()} className='addPost'>
                 <input value={postTitle} onChange={(e) => setPostTitle(e.target.value)} placeholder='Title' />
                 <textarea value={postBody} onChange={(e) => setPostBody(e.target.value)} placeholder='Body' />
-                <button>Save</button>
+                <button onClick={() => addPost()}>Save</button>
             </form>
         </div>
     )
