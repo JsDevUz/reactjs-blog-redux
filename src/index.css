@@ -39,9 +39,10 @@ a {
   background-color: aqua;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   font-weight: 700;
   font-size: 20px;
-  padding: 0 0 0 20px;
+  padding: 0 10px 0 20px;
 }
 .nav {
   background-color: black;
@@ -134,6 +135,20 @@ a {
 .footer {
   height: 40px;
   background-color: aqua;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.error-message {
+  color: red;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loading {
+  color: green;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;

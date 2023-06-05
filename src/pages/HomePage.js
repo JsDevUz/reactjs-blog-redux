@@ -2,10 +2,12 @@
 import React from 'react'
 import Feed from '../components/Feed'
 
-function Home({ posts }) {
+function Home({ isLoading, fetchError, posts }) {
   return (
     <>
-      <Feed posts={posts} />
+      {!isLoading && fetchError && <span className='error-message'>{fetchError}</span>}
+      {isLoading && <span className='loading'>Load posts...</span>}
+      {!isLoading && !fetchError && <Feed posts={posts} />}
     </>
   )
 }

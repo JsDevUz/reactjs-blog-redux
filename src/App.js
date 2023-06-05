@@ -6,6 +6,8 @@ import Routers from './router/Router'
 import { format } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
 import api from './api/api'
+import useWindowSize from './hooks/useWindowSize'
+import useAxiosFetch from './hooks/useAxiosFetch'
 function App() {
     const history = useNavigate()
     const [search, setSearch] = useState('')
@@ -15,17 +17,26 @@ function App() {
     const [editBody, setEditBody] = useState('')
     const [searchResult, setSearchResult] = useState([])
     const [posts, setPosts] = useState([])
+
+    // custom hook
+    const { width } = useWindowSize()
+    const { data, fetchError, isLoading } = useAxiosFetch('http://localhost:3500/posts')
+    //
+
     useEffect(() => {
-        const fetchPost = async () => {
-            try {
-                const respose = await api.get('/posts');
-                setPosts(respose.data)
-            } catch (e) {
-                console.log(e);
-            }
-        }
-        fetchPost()
-    }, [])
+        // before custom hook
+        // const fetchPost = async () => {
+        //     try {
+        //         const respose = await api.get('/posts');
+        //         setPosts(respose.data)
+        //     } catch (e) {
+        //         console.log(e);
+        //     }
+        // }
+        // fetchPost()
+
+        setPosts(data)
+    }, [data])
     useEffect(() => {
         if (search.length > 0) {
             const searchResults = posts.filter(p => p.body.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
@@ -85,10 +96,10 @@ function App() {
     return (
         <div className='app'>
             <div className='header-side'>
-                <Header />
+                <Header width={width} />
                 <Nav search={search} setSearch={setSearch} />
                 <div className='body'>
-                    <Routers editTitle={editTitle} editBody={editBody} setEditTitle={setEditTitle} addPost={addPost} setEditBody={setEditBody} handleDelete={handleDelete} handleEdit={handleEdit} postBody={postBody} setPostBody={setPostBody} postTitle={postTitle} setPostTitle={setPostTitle} posts={searchResult} />
+                    <Routers isLoading={isLoading} fetchError={fetchError} editTitle={editTitle} editBody={editBody} setEditTitle={setEditTitle} addPost={addPost} setEditBody={setEditBody} handleDelete={handleDelete} handleEdit={handleEdit} postBody={postBody} setPostBody={setPostBody} postTitle={postTitle} setPostTitle={setPostTitle} posts={searchResult} />
                 </div>
             </div>
             <Footer />
