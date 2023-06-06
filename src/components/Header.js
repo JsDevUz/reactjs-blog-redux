@@ -1,6 +1,9 @@
 import React from 'react'
 import { FaTabletAlt, FaLaptop, FaMobileAlt } from 'react-icons/fa'
-function Header({ width }) {
+import useWindowSize from '../hooks/useWindowSize'
+function Header() {
+    const { width } = useWindowSize()
+
     return (
         <div className='head'>
             <h3>ReactJS Blog</h3>
