@@ -1,17 +1,19 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import DataContext from '../context/DataContext'
 import { format } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
-import api from '../api/api'
+import { useStoreActions, useStoreState } from 'easy-peasy'
 
 function EditPost() {
     const { id } = useParams()
-    const { posts, setPosts } = useContext(DataContext)
     const history = useNavigate()
+    const posts = useStoreState(state => state.posts)
+    const editTitle = useStoreState(state => state.editTitle)
+    const editBody = useStoreState(state => state.editBody)
 
-    const [editTitle, setEditTitle] = useState('')
-    const [editBody, setEditBody] = useState('')
+    const editPost = useStoreActions(action => action.editPost)
+    const setEditTitle = useStoreActions(action => action.setEditTitle)
+    const setEditBody = useStoreActions(action => action.setEditBody)
     useEffect(() => {
         setEditTitle(posts.filter(p => p.id == id)[0]?.title)
         setEditBody(posts.filter(p => p.id == id)[0]?.body)
@@ -20,22 +22,18 @@ function EditPost() {
         try {
             if (editTitle.length <= 0 || editBody.length <= 0) return;
 
-            const editPost = {
+            const editedPost = {
                 id: id,
                 title: editTitle,
                 body: editBody,
                 dateTime: format(new Date(), 'MMMM dd, yyyy pp')
             }
-            const response = await api.put(`/posts/${id}`, editPost)
-            setPosts(p => p.map(po => po.id == id ? { ...response.data } : po))
-            setEditBody('')
-            setEditTitle('')
+            editPost(editedPost)
             history('/')
         } catch (e) {
             console.log(e);
         }
     }
-    console.log(editBody, posts, editTitle);
     return (
         <div className='editPost'>
             <h2>Edit Post</h2>

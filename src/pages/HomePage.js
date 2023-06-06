@@ -1,16 +1,15 @@
 
 import React from 'react'
 import Feed from '../components/Feed'
-import { useContext } from 'react'
-import DataContext from '../context/DataContext'
+import { useStoreState } from 'easy-peasy'
 
-function Home() {
-  const { isLoading, fetchError, searchResult } = useContext(DataContext)
+function Home({ fetchError, isLoading }) {
+  const searchResults = useStoreState(state => state.searchResults)
   return (
     <>
       {!isLoading && fetchError && <span className='error-message'>{fetchError}</span>}
       {isLoading && <span className='loading'>Load posts...</span>}
-      {!isLoading && !fetchError && <Feed posts={searchResult} />}
+      {!isLoading && !fetchError && <Feed posts={searchResults} />}
     </>
   )
 }

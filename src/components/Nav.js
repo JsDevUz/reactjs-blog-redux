@@ -1,11 +1,23 @@
 import React from 'react'
-import { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import DataContext from '../context/DataContext'
+import { useStoreActions, useStoreState } from 'easy-peasy'
+import { useEffect } from 'react'
 
 function Nav() {
-    const { setSearch, search } = useContext(DataContext)
-
+    const posts = useStoreState(state => state.posts)
+    const search = useStoreState(state => state.search)
+    const setSearch = useStoreActions(action => action.setSearch)
+    const setSearchResult = useStoreActions(action => action.setSearchResults)
+    useEffect(() => {
+        if (search.length > 0) {
+            console.log(posts);
+            const searchResults = posts.filter(p => p.title.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+                || posts.filter(p => p.body.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+            setSearchResult(searchResults)
+        } else {
+            setSearchResult(posts)
+        }
+    }, [search, posts, setSearchResult])
     return (
         <div className='nav'>
             <form onSubmit={(e) => e.preventDefault()}>
