@@ -68,6 +68,7 @@ a {
 .nav form{
   display:flex;
   align-items: center;
+}
 .about {
   padding: 10px;
 }
