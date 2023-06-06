@@ -65,6 +65,9 @@ a {
   padding: 5px 10px;
   outline: none;
 }
+.nav form{
+  display:flex;
+  align-items: center;
 .about {
   padding: 10px;
 }
